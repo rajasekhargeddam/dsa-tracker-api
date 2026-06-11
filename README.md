@@ -41,7 +41,7 @@ Built with Node.js, Express & MongoDB · Secured with JWT + bcrypt
 
 ## 🚀 Overview
 
-DSA Tracker helps you (and your friends) master Data Structures & Algorithms by combining a **shared problem catalog** with a **personal spaced-repetition schedule**. You browse a global LeetCode catalog, add problems to *your* tracker, mark them solved, and the system automatically schedules three timed revisions (after 3, 7, and 20 days) so the knowledge actually sticks.
+DSA Tracker helps you (and your friends) master Data Structures & Algorithms by combining a **shared problem catalog** with a **personal spaced-repetition schedule**. You browse a global LeetCode catalog, add problems you're tracking, and our engine automatically schedules revisions at optimal intervals.
 
 **Core capabilities**
 
@@ -340,7 +340,7 @@ So a `PENDING` revision **always means "completable right now."** Completing one
 | `GET` | `/tags` | Distinct list of all catalog tags |
 | `GET` | `/:id` | A single catalog problem |
 
-**`GET /catalog` query params:** `search` (matches title **or** problem number) · `difficulty` (`Easy`/`Medium`/`Hard`) · `tag` · `page` (default 1) · `limit` (default 20, max 100) · `sort` (`number-asc`, `number-desc`, `title-asc`, `title-desc`, `difficulty`, `newest`, `oldest`).
+**`GET /catalog` query params:** `search` (matches title **or** problem number) · `difficulty` (`Easy`/`Medium`/`Hard`) · `tag` · `page` (default 1) · `limit` (default 20, max 100) · `sort` (by `number` or `difficulty`).
 Returns a paginated payload: `{ data, total, page, limit, totalPages }`.
 
 ### 📝 My Problems — `/api/my-problems` *(auth required)*
@@ -409,7 +409,7 @@ A missing / invalid / expired token returns **401** with a clear message (the fr
 
 ## 🌱 Seeding the Catalog
 
-The global catalog is populated from **`data/problems.json`** via an idempotent importer. To add or update problems, see the dedicated guide in [`../ISSUES.md` → "How to Add New Problems to the LeetCode Catalog"](../ISSUES.md#-how-to-add-new-problems-to-the-leetcode-catalog).
+The global catalog is populated from **`data/problems.json`** via an idempotent importer. To add or update problems, see the dedicated guide in [`../ISSUES.md`](../ISSUES.md).
 
 Quick version:
 
@@ -431,5 +431,3 @@ The importer upserts by `problemNumber`, so existing problems are updated and ne
 5. Point the frontend's `VITE_API_URL` at this server's `/api` base.
 
 **Suggested hosts:** Render, Railway, Fly.io, or any Node-capable VPS.
-#   d s a - t r a c k e r - a p i  
- 
