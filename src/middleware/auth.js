@@ -6,8 +6,20 @@ const AppError = require('../utils/AppError');
  * req.userId for downstream scoping of all data access.
  */
 const protect = (req, res, next) => {
-  const header = req.headers.authorization || '';
-  const token = header.startsWith('Bearer ') ? header.slice(7).trim() : null;
+  let token = null;
+
+  // 1) Read token from cookies (primary)
+  if (req.cookies && req.cookies.token) {
+    token = req.cookies.token;
+  }
+
+  // 2) Fallback to Authorization header
+  if (!token) {
+    const header = req.headers.authorization || '';
+    if (header.startsWith('Bearer ')) {
+      token = header.slice(7).trim();
+    }
+  }
 
   if (!token) {
     return next(new AppError('Not authenticated. Please log in.', 401));

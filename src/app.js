@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const authRoutes = require('./routes/authRoutes');
@@ -16,12 +17,15 @@ const app = express();
 // Secure HTTP headers.
 app.use(helmet());
 
+// Cookie parser.
+app.use(cookieParser());
+
 // Restrict CORS to the configured frontend origin(s) when provided; otherwise
-// allow all (useful for local development). Set CORS_ORIGIN in production.
+// default to localhost frontend ports to support credential-sharing cookies.
 const corsOrigin = process.env.CORS_ORIGIN
   ? process.env.CORS_ORIGIN.split(',').map((o) => o.trim())
-  : '*';
-app.use(cors({ origin: corsOrigin }));
+  : ['http://localhost:5173', 'http://localhost:3000'];
+app.use(cors({ origin: corsOrigin, credentials: true }));
 
 // Cap request body size to avoid large-payload abuse.
 app.use(express.json({ limit: '1mb' }));
