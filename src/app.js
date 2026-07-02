@@ -24,7 +24,7 @@ app.use(cookieParser());
 // default to localhost frontend ports to support credential-sharing cookies.
 const corsOrigin = process.env.CORS_ORIGIN
   ? process.env.CORS_ORIGIN.split(',').map((o) => o.trim())
-  : ['http://localhost:5173', 'http://localhost:3000'];
+  : ['http://localhost:5173', 'http://localhost:3000', 'https://dsa-tracker-web-ashen.vercel.app'];
 app.use(cors({ origin: corsOrigin, credentials: true }));
 
 // Cap request body size to avoid large-payload abuse.
